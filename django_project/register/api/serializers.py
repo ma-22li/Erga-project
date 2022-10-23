@@ -9,6 +9,8 @@ class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
     fields = ["id", "username"]
+
+    
 #Serializer to Register User
 class RegisterSerializer(serializers.ModelSerializer):
   email = serializers.EmailField(
