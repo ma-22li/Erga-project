@@ -1,5 +1,9 @@
 from django import forms
-from django.contrib.auth.models import User 
+#from django.contrib.auth.models import User 
+from .models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 
 #Creating Signup Form with three fields
 class userForm( forms.ModelForm ):

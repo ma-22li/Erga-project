@@ -6,4 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('register.api.urls')),
     path('api-token-auth', views.obtain_auth_token),
+    path('', include('register.urls')),
 ]
