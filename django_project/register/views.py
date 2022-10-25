@@ -1,9 +1,8 @@
-
 from contextlib import _RedirectStream
 from django.shortcuts import render, redirect
 from django.contrib.auth import  authenticate
 from register.form import userForm
-
+from django_nextjs.render import render_nextjs_page_sync
 
 
 # Create your views here.
@@ -26,5 +25,8 @@ def signup(request):
 def home(requset):
     return render(requset,'home.html')
 
+
+def index(request):
+    return render_nextjs_page_sync(request)
 
  
