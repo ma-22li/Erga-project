@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'register.api.apps.ApiConfig',
     'rest_framework',
+    'betterforms',
     'register',
     
 ]
