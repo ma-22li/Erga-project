@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'register.api.apps.ApiConfig',
+    'django_nextjs',
     'rest_framework',
     'betterforms',
     'register',

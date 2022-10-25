@@ -7,4 +7,5 @@ urlpatterns = [
     path('',include('register.api.urls')),
     path('api-token-auth', views.obtain_auth_token),
     path('', include('register.urls')),
+    path("", include("django_nextjs.urls"))
 ]
