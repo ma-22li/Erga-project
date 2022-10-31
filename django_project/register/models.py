@@ -1,23 +1,22 @@
 from enum import unique
-from unittest.util import _MAX_LENGTH
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
+from versatileimagefield.fields import VersatileImageField, PPOIField
+
 
 # Create your models here.
-class User(AbstractBaseUser): 
-    user_id = models.IntegerField(primary_key=True, unique= True, null= False)
-    #username= models.CharField(max_length=50)
-    email= models.EmailField(max_length= 254, help_text='example@email.com', unique= True)
+class User(AbstractUser): 
     full_name = models.CharField(max_length=50)
-    city= models.ForeignKey('city', on_delete=models.CASCADE, related_name='+')
-    image = models.ImageField()
+    city= models.ManyToManyField('city', related_name='+')
+    image = VersatileImageField(
+        'Image',
+        upload_to='images/',
+        ppoi_field='image_ppoi' 
+    )
+    image_ppoi = PPOIField()
     interests = models.CharField(max_length = 200)
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
 
 class city(models.Model):
-    user_city= models.CharField(max_length=50)
-    user = models.ForeignKey( 'User', on_delete = models.CASCADE, related_name='+')
+    city= models.CharField(max_length=50)
+    
     

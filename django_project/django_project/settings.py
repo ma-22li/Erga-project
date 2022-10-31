@@ -41,9 +41,13 @@ INSTALLED_APPS = [
     'django_nextjs',
     'rest_framework',
     'knox',
+    'versatileimagefield',
     'register',
     
 ]
+import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
