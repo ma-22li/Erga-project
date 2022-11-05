@@ -4,6 +4,7 @@ import SSRProvider from 'react-bootstrap/SSRProvider';
 function MyApp({ Component, pageProps }) {
   
   return <Component {...pageProps} />
+        
 }
 
 export default MyApp
