@@ -1,32 +1,16 @@
-from contextlib import _RedirectStream
-from django.shortcuts import render, redirect
-from django.contrib.auth import  authenticate
-from register.form import userForm
-from django_nextjs.render import render_nextjs_page_sync
+from rest_framework import generics, permissions,status
+from rest_framework.response import Response 
+from knox.models import AuthToken
+from .serializers import UserSerializer, RegisterSerializer
 
+# Register API
+class RegisterAPI(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
 
-# Create your views here.
-def signup(request):
-    if request.method=='POST':
-        form = userForm(request.POST)
-        if form.is_valid():
-           form.save()
-           username = form.cleaned_data.get('username')
-           email = form.cleaned_data.get('email')
-           password = form.cleaned_data.get('password')
-           city = form.cleaned_data.get('city')
-           User = authenticate(username=username,email=email,password=password,city=city)
-        return render('/home')#redirect('/home')
-    else:
-        form = userForm()
-        return render (request,'signup.html',{'form':form})
-        
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-def home(requset):
-    return render(requset,'home.html')
-
-
-def index(request):
-    return render_nextjs_page_sync(request)
-
- 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
