@@ -5,9 +5,10 @@ from versatileimagefield.fields import VersatileImageField, PPOIField
 
 
 # Create your models here.
-class User(AbstractUser): 
+class User(AbstractUser):
+
     full_name = models.CharField(max_length=50)
-    city= models.ManyToManyField('city', related_name='+')
+   
     image = VersatileImageField(
         'Image',
         upload_to='images/',
@@ -18,5 +19,6 @@ class User(AbstractUser):
 
 class city(models.Model):
     city= models.CharField(max_length=50)
+    user = models.ForeignKey(User,  on_delete=models.CASCADE)
     
     
