@@ -39,5 +39,6 @@ class User(AbstractBaseUser):
 
 class city(models.Model):
     city= models.CharField(max_length=50)
+    user = models.ForeignKey(User,  on_delete=models.CASCADE)
     
     
