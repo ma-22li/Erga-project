@@ -1,46 +1,46 @@
-from django.shortcuts import render
-from django.shortcuts import render
-from django.contrib.auth import  authenticate
-from django.shortcuts import render, redirect
-from register.forms import SignupForm 
+''' from rest_framework import generics, permissions,status
+from rest_framework.response import Response 
+from knox.models import AuthToken
+from .serializers import UserSerializer, RegisterSerializer
 
-# Create your views here.
-def signup(request):
-    if request.method=='POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            city = form.cleaned_data.get('city')
+# Register API
+class RegisterAPI(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
 
-            User = authenticate(username=username,email=email,password=password,city=city)
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-            return redirect('/login')
-    
-    else:
-        form = SignupForm()
-        return render (request,'signup.html',{'form':form})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        '''
+from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import UserSerializer,RegisterSerializer
+from django.contrib.auth import get_user_model
+User = get_user_model()
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics
 
-def home(req):
-    return render(req,'home.html')
+# Class based view to Get User Details using Token Authentication
+class UserDetailAPI(APIView):
+  authentication_classes = (TokenAuthentication,)
+  permission_classes = (AllowAny,)
+  def get(self,request,*args,**kwargs):
+    user = User.objects.get(id=request.user.id)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
 
+#Class based view to register user
+class RegisterUserAPIView(generics.CreateAPIView):
+  permission_classes = (AllowAny,)
+  serializer_class = RegisterSerializer
 
+  '''
 
-# Create your views here.
-
-# @api_view(['POST'])
-# def RegisterAPI(request):
-#     data = request.data
-#     serializer = UserSignupSerializer(data=data)
-#     if serializer.is_valid():
-#         if not User.objects.filter(username=data['email']).exists():
-#             user = User.objects.create( username=data['email'], email=data['email'], city_id=data['city_id'], password=make_password(data['password']))
-#             user.save()
-#             User = User.objects.create(auth=user, name=data['username'], email=data['email'])
-#             return Response({'message':'User Created Successfully'}, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response({'message':'User Already Exists'}, status=status.HTTP_400_BAD_REQUEST)
-#     else:
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (AllowAny, )  '''
