@@ -8,9 +8,23 @@ from versatileimagefield.fields import VersatileImageField, PPOIField
 from django.db import models
 
 # Create your models here.
+
+class city(models.Model):
+    class City_choice(models.TextChoices):
+        Riyadh = 'Riy', ('Riyadh')
+        Jeddah = 'Jed', ('Jeddah')
+        Makkah = 'Mak', ('Makkah')
+        Qassim = 'Qas', ('Qassim')
+        Hail = 'Hai', ('Hail')
+
+    city = models.CharField(
+        max_length=10,
+        choices=City_choice.choices,
+    )
+
+
 class User(AbstractUser):
      full_name = models.CharField(blank=False, max_length=30)
-     username = models.CharField(blank=False, max_length=32, unique=True)
      image = VersatileImageField(
          'Image',
          upload_to='images/',
@@ -18,12 +32,11 @@ class User(AbstractUser):
      )
      image_ppoi = PPOIField()
      interests = models.CharField(max_length = 200)
-     USERNAME_FIELD = 'username'
+     city = models.ForeignKey(city ,related_name='CITY', on_delete=models.CASCADE, null= True, blank= True)
+     #USERNAME_FIELD = 'username'
      REQUIRED_FIELDS = []
 
 
-class city(models.Model):
-    city= models.CharField(max_length=50)
-    user = models.ForeignKey(User,  on_delete=models.CASCADE)
+
     
     

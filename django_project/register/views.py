@@ -1,20 +1,3 @@
-''' from rest_framework import generics, permissions,status
-from rest_framework.response import Response 
-from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer
-
-# Register API
-class RegisterAPI(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        '''
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -29,7 +12,7 @@ class UserDetailAPI(APIView):
   authentication_classes = (TokenAuthentication,)
   permission_classes = (AllowAny,)
   def get(self,request,*args,**kwargs):
-    user = User.objects.get(id=request.user.id)
+    user = User.objects.get(request.user.id)
     serializer = UserSerializer(user)
     return Response(serializer.data)
 
@@ -44,3 +27,5 @@ class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (AllowAny, )  '''
+
+  
